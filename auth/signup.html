@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Portal — Create Account</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+    <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+
+  <div class="card">
+    <div class="brand">CampusConnect</div>
+    <h1>Create account</h1>
+    <p class="subtitle">Register your role to join the portal</p>
+
+    <div class="role-tabs">
+      <button type="button" class="role-tab active" data-role="student">Student</button>
+      <button type="button" class="role-tab" data-role="faculty">Faculty</button>
+      <button type="button" class="role-tab" data-role="admin">Admin</button>
+    </div>
+
+    <form id="signupForm">
+      <input type="hidden" id="selectedRole" name="role" value="student">
+
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="e.g. Aarav Sharma" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">College Email</label>
+        <input type="email" id="email" name="email" placeholder="name@college.edu" required>
+      </div>
+
+      <!-- Dynamic role-specific field -->
+      <div class="form-group">
+        <label for="roleCode" id="codeLabel">Student Roll No</label>
+        <input type="text" id="roleCode" name="roleCode" placeholder="e.g. 2024CS101" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Create Password</label>
+        <input type="password" id="password" name="password" placeholder="Minimum 8 characters" required>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">Sign up as Student</button>
+    </form>
+
+    <div class="footer-link">
+      Already registered? <a href="login.html">Sign in</a>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>
