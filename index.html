@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>College Management System</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap"><span>Academic session 2026–27</span><span id="today"></span></div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home"><b>Sample College</b><small>College Management System</small></a>
+    <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav">
+      <a href="#home">Home</a>
+      <a href="#notices">Notices</a>
+      <a href="#timetable">Timetable</a>
+      <a href="#courses">Courses</a>
+      <a href="#help">Help desk</a>
+      <a class="login" href="index.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+
+  <section class="hero">
+    <div class="wrap two">
+      <div>
+        <h1>Notices, timetables, attendance and assignments in one place</h1>
+        <p>Students check their schedule and the latest circulars. Faculty mark attendance and post assignments. The college office keeps records up to date.</p>
+        <form id="heroSearch" role="search">
+          <label for="q" class="sr">Search notices and courses</label>
+          <input id="q" type="search" placeholder="Search notices and courses">
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+      <aside class="latest">
+        <h2>Latest notices</h2>
+        <ul id="latest"></ul>
+        <a href="#notices">See all notices</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="roles wrap" aria-labelledby="rolesH">
+    <h2 id="rolesH">Who uses it</h2>
+    <div class="three">
+      <div><h3>Student</h3><p>Views notices, timetable and personal academic information.</p></div>
+      <div><h3>Faculty</h3><p>Manages attendance, assignments and class notices.</p></div>
+      <div><h3>Administrator</h3><p>Manages student and faculty records and the content on this site.</p></div>
+    </div>
+    <a class="btn" href="index.html">Login to your account</a>
+  </section>
+
+  <section id="notices" class="block alt">
+    <div class="wrap">
+      <h2>Notice board</h2>
+      <div class="tools">
+        <div id="cats" class="cats" role="group" aria-label="Filter by category"></div>
+        <input id="nq" type="search" placeholder="Search notices" aria-label="Search notices">
+      </div>
+      <p id="ncount" class="count" aria-live="polite"></p>
+      <ul id="nlist" class="nlist"></ul>
+    </div>
+  </section>
+
+  <section id="timetable" class="block">
+    <div class="wrap">
+      <h2>Timetable</h2>
+      <div class="tools">
+        <label>Semester <select id="tsem"></select></label>
+        <label>Section <select id="tsec"><option>A</option><option>B</option></select></label>
+      </div>
+      <div class="scroll"><table id="ttable"></table></div>
+      <p class="count">Sample timetable. Today’s row is highlighted on weekdays.</p>
+    </div>
+  </section>
+
+  <section id="courses" class="block alt">
+    <div class="wrap">
+      <h2>Courses</h2>
+      <div class="tools">
+        <label>Semester <select id="csem"><option value="0">All</option></select></label>
+        <input id="cq" type="search" placeholder="Search by course, code or faculty" aria-label="Search courses">
+      </div>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Code</th><th>Course</th><th>Department</th><th>Semester</th><th>Faculty</th></tr></thead>
+          <tbody id="cbody"></tbody>
+        </table>
+      </div>
+      <p id="ccount" class="count" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="help" class="block">
+    <div class="wrap narrow">
+      <h2>Help desk</h2>
+      <p>Problem with your record, attendance or login? Send a request and note the reference number.</p>
+      <form id="hform" novalidate>
+        <label for="hn">Name</label>
+        <input id="hn" autocomplete="name">
+        <label for="hr">Roll number</label>
+        <input id="hr" autocomplete="off">
+        <label for="hm">Your request</label>
+        <textarea id="hm" rows="4"></textarea>
+        <p id="hmsg" class="fmsg" role="status"></p>
+        <button class="btn" type="submit">Send request</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sample College, College Management System</span>
+    <span>Office hours: Monday to Friday, 10:00 am to 4:30 pm</span>
+  </div>
+</footer>
+
+<script src="home.js"></script>
+</body>
+</html>

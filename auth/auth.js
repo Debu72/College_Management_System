@@ -144,7 +144,7 @@ if (tabs.length > 0) {
                             localStorage.setItem("findit_user_name", userPart.charAt(0).toUpperCase() + userPart.slice(1));
                         }
                         alert("Logged in successfully! User: " + data.user.email);
-                        window.location.href = "../index.html";
+                        window.location.href = "../frontend/index.html";
                     }
                 }
             } catch (err) {
