@@ -185,7 +185,8 @@ if (tabs.length > 0) {
                         localStorage.setItem("user_semester", userSemester);
 
                         alert(`Logged in successfully as ${userRole.toUpperCase()}!`);
-                        window.location.href = "../frontend/home.html";
+                        const inAuthDir = window.location.pathname.includes('/auth/');
+                        window.location.href = inAuthDir ? "../frontend/home.html" : "frontend/home.html";
                     }
                 }
             } catch (err) {

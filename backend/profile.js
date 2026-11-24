@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (confirm('Are you sure you want to log out?')) {
         if (window.AppState) window.AppState.clearSession();
         alert('You have been logged out.');
-        window.location.href = '../auth/login.html';
+        window.location.href = '../index.html';
       }
     };
   }

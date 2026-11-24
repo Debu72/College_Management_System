@@ -1,12 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/auth.css",
-      "destination": "/auth/auth.css"
-    },
-    {
-      "source": "/auth.js",
-      "destination": "/auth/auth.js"
-    }
-  ]
+  "cleanUrls": true
 }
