@@ -1,8 +1,19 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
-      "destination": "/auth/login.html"
+      "destination": "/auth/login.html",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/auth.css",
+      "destination": "/auth/auth.css"
+    },
+    {
+      "source": "/auth.js",
+      "destination": "/auth/auth.js"
     }
   ]
 }
