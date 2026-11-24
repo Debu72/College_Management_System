@@ -9,29 +9,21 @@
 <body>
 
   <button class="theme-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
-        <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
+    <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
 
   <div class="card">
     <div class="brand">CampusConnect</div>
     <h1>Sign in</h1>
-    <p class="subtitle">Select your role to access the portal</p>
-
-    <div class="role-tabs">
-      <button type="button" class="role-tab active" data-role="student">Student</button>
-      <button type="button" class="role-tab" data-role="faculty">Faculty</button>
-      <button type="button" class="role-tab" data-role="admin">Admin</button>
-    </div>
+    <p class="subtitle">Enter your college email or roll number to access the portal</p>
 
     <form id="loginForm">
-      <input type="hidden" id="selectedRole" name="role" value="student">
-
       <div class="form-group">
-        <label for="userId" id="idLabel">Student Roll No / Email</label>
-        <input type="text" id="userId" name="userId" placeholder="e.g. 2024CS101" required>
+        <label for="userId">Email / Roll No</label>
+        <input type="text" id="userId" name="userId" placeholder="name@college.edu or Roll No" required autofocus>
       </div>
 
       <div class="form-group">
@@ -39,7 +31,7 @@
         <input type="password" id="password" name="password" placeholder="Enter password" required>
       </div>
 
-      <button type="submit" class="btn-submit" id="submitBtn">Sign in as Student</button>
+      <button type="submit" class="btn-submit" id="submitBtn">Sign in</button>
     </form>
 
     <div class="footer-link">

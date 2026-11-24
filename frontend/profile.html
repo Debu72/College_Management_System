@@ -3,27 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Student Profile - College Management System</title>
+<title>User Profile — College Management System</title>
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
-
-<div class="topbar">
-  <div class="wrap"><span>Academic session 2026–27</span><span id="today"></span></div>
-</div>
 
 <header class="site">
   <div class="wrap">
     <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav">
-      <a href="home.html">Home</a>
-      <a href="notice.html">Notices</a>
-      <a href="routine.html">Routine</a>
-      <a href="attendence.html">Attendance</a>
-      <a href="assignment.html">Assignments</a>
-      <a href="profile.html" class="active">Profile</a>
-      <a class="login" href="index.html">Login</a>
+      <!-- Populated dynamically by home.js based on role -->
     </nav>
   </div>
 </header>
@@ -32,8 +22,7 @@
 
   <section class="page-banner">
     <div class="wrap">
-      <h1>Student Academic Profile</h1>
-      <p>Personal credentials, enrolled courses, academic records, and departmental advisor information.</p>
+      <h1 id="pBannerTitle" style="font-size:22px;margin:0;">User Profile</h1>
     </div>
   </section>
 
@@ -41,143 +30,61 @@
     <div class="wrap">
       <div class="profile-layout">
         
-        <!-- Left: Summary Avatar Card -->
+        <!-- Left: Summary Avatar & Role Card -->
         <aside class="profile-card">
-          <div class="profile-avatar">RS</div>
-          <h2>Rahul Sharma</h2>
-          <div class="roll">Roll No: 2024CS101</div>
-          <p style="margin-bottom:14px;"><span class="badge badge-ok">Regular Active Student</span></p>
-          <div style="text-align:left;font-size:.9rem;border-top:1px solid var(--line);padding-top:14px;margin-top:10px;">
-            <p style="margin:4px 0;"><span style="color:var(--muted)">Program:</span> <b>B.Sc. (Hons) CS</b></p>
-            <p style="margin:4px 0;"><span style="color:var(--muted)">Semester:</span> <b>Semester 4</b></p>
-            <p style="margin:4px 0;"><span style="color:var(--muted)">Academic Year:</span> <b>2026–2027</b></p>
-            <p style="margin:4px 0;"><span style="color:var(--muted)">Cumulative CGPA:</span> <b style="color:var(--teal)">8.72 / 10.0</b></p>
+          <div class="profile-avatar" id="pAvatar">U</div>
+          <h2 id="pName">User Name</h2>
+          <div class="roll" id="pCode">ID: Loading...</div>
+          <p style="margin-bottom:14px;"><span class="badge badge-ok" id="pBadge">Role Badge</span></p>
+
+          <!-- Dynamic Role Summary Block -->
+          <div id="pSummaryBlock" style="text-align:left;font-size:13px;border-top:1px solid var(--border-color);padding-top:14px;margin-top:10px;">
+            <!-- Rendered by JS per role -->
           </div>
+
+          <!-- Action Buttons -->
           <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;">
-            <button type="button" class="btn" onclick="alert('Digital ID Card downloaded.')" style="width:100%;">Download ID Card</button>
-            <a href="routine.html" class="btn" style="background:var(--navy);text-align:center;">View Routine</a>
+            <button type="button" id="logoutBtn" class="btn btn-danger" style="width:100%;font-weight:600;">Log Out</button>
           </div>
         </aside>
 
-        <!-- Right: Academic & Personal Info -->
-        <div>
+        <!-- Right: Role-Tailored Information Panels -->
+        <div id="pContentArea">
           
-          <div class="card-box">
-            <h3>Academic Information</h3>
+          <!-- Institutional Profile Details Card (100% mapped to public.profiles) -->
+          <div class="card-box" id="pContactCard">
+            <h3 style="margin-top:0;">Institutional Profile Details</h3>
             <div class="info-grid">
               <div class="info-field">
-                <label>University Registration No.</label>
-                <span>REG-2024-004821</span>
+                <label>Full Name</label>
+                <span id="pDetailName" style="font-weight:600;">—</span>
+              </div>
+              <div class="info-field">
+                <label>Registered Email</label>
+                <span id="pDetailEmail" style="font-weight:600;">—</span>
+              </div>
+              <div class="info-field">
+                <label>Institutional Role</label>
+                <span id="pDetailRole" style="font-weight:600;text-transform:capitalize;">—</span>
+              </div>
+              <div class="info-field">
+                <label id="pDetailCodeLabel">Roll / Faculty ID</label>
+                <span id="pDetailCode" style="font-weight:600;">—</span>
               </div>
               <div class="info-field">
                 <label>Department</label>
-                <span>Computer Science & Engineering</span>
+                <span id="pDetailDept" style="font-weight:600;">—</span>
               </div>
-              <div class="info-field">
-                <label>Admission Batch</label>
-                <span>2024 – 2028</span>
-              </div>
-              <div class="info-field">
-                <label>Section & Shift</label>
-                <span>Section A (Morning Shift)</span>
-              </div>
-              <div class="info-field">
-                <label>Faculty Mentor / Advisor</label>
-                <span>Prof. T. Roy (Dept. of CS)</span>
-              </div>
-              <div class="info-field">
-                <label>Fee Status</label>
-                <span><span class="badge badge-ok">All Dues Cleared</span></span>
+              <div class="info-field" id="pDetailSemField">
+                <label>Current Semester</label>
+                <span id="pDetailSem" style="font-weight:600;">—</span>
               </div>
             </div>
           </div>
 
-          <div class="card-box">
-            <h3>Personal & Contact Details</h3>
-            <form id="profileForm">
-              <div class="info-grid">
-                <div class="info-field">
-                  <label for="pEmail">College Email</label>
-                  <input type="email" id="pEmail" value="rahul.sharma24@samplecollege.edu" style="width:100%;" required>
-                </div>
-                <div class="info-field">
-                  <label for="pPhone">Contact Phone</label>
-                  <input type="tel" id="pPhone" value="+91 98765 43210" style="width:100%;" required>
-                </div>
-                <div class="info-field">
-                  <label>Date of Birth</label>
-                  <span>14 October 2004</span>
-                </div>
-                <div class="info-field">
-                  <label>Blood Group</label>
-                  <span>B +ve</span>
-                </div>
-                <div class="info-field">
-                  <label for="pGuardian">Guardian Name & Contact</label>
-                  <input type="text" id="pGuardian" value="Mr. Alok Sharma (+91 98300 11223)" style="width:100%;">
-                </div>
-                <div class="info-field">
-                  <label for="pAddress">Residential Address</label>
-                  <input type="text" id="pAddress" value="45 Lake Road, Kolkata 700029" style="width:100%;">
-                </div>
-              </div>
-              <p id="profileMsg" class="fmsg" role="status"></p>
-              <button type="submit" class="btn">Update Contact Info</button>
-            </form>
-          </div>
-
-          <div class="card-box">
-            <h3>Currently Enrolled Courses (Semester 4)</h3>
-            <div class="scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Code</th>
-                    <th>Course Name</th>
-                    <th>Credits</th>
-                    <th>Faculty</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>CSC202</b></td>
-                    <td>Data Analysis with Python</td>
-                    <td>4</td>
-                    <td>Prof. T. Roy</td>
-                    <td><a href="assignment.html" style="font-weight:600;">Assignments</a></td>
-                  </tr>
-                  <tr>
-                    <td><b>MAT201</b></td>
-                    <td>Calculus</td>
-                    <td>4</td>
-                    <td>Dr. M. Ghosh</td>
-                    <td><a href="assignment.html" style="font-weight:600;">Assignments</a></td>
-                  </tr>
-                  <tr>
-                    <td><b>EVS201</b></td>
-                    <td>Environmental Science</td>
-                    <td>2</td>
-                    <td>Prof. K. Dutta</td>
-                    <td><a href="assignment.html" style="font-weight:600;">Assignments</a></td>
-                  </tr>
-                  <tr>
-                    <td><b>PHY201</b></td>
-                    <td>Waves and Optics</td>
-                    <td>4</td>
-                    <td>Dr. R. Banerjee</td>
-                    <td><a href="assignment.html" style="font-weight:600;">Assignments</a></td>
-                  </tr>
-                  <tr>
-                    <td><b>CSL202</b></td>
-                    <td>Python Computing Lab</td>
-                    <td>2</td>
-                    <td>Prof. T. Roy</td>
-                    <td><a href="assignment.html" style="font-weight:600;">Assignments</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <!-- Dynamic Role-Specific Detail Card -->
+          <div id="pRoleMainCard">
+            <!-- Injected by home.js -->
           </div>
 
         </div>
@@ -190,11 +97,13 @@
 
 <footer>
   <div class="wrap">
-    <span>Sample College, College Management System</span>
-    <span>Office hours: Monday to Friday, 10:00 am to 4:30 pm</span>
+    <span>Sample College &bull; College Management System</span>
+    <span id="footerDate"></span>
   </div>
 </footer>
 
-<script src="home.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../backend/app.js"></script>
+<script src="../backend/profile.js"></script>
 </body>
 </html>

@@ -21,8 +21,6 @@
       <a href="#notices">Notices</a>
       <a href="#timetable">Timetable</a>
       <a href="#courses">Courses</a>
-      <a href="#help">Help desk</a>
-      <a class="login" href="index.html">Login</a>
     </nav>
   </div>
 </header>
@@ -55,7 +53,7 @@
       <div><h3>Faculty</h3><p>Manages attendance, assignments and class notices.</p></div>
       <div><h3>Administrator</h3><p>Manages student and faculty records and the content on this site.</p></div>
     </div>
-    <a class="btn" href="index.html">Login to your account</a>
+    <a class="btn" href="../auth/login.html">Login to your account</a>
   </section>
 
   <section id="notices" class="block alt">
@@ -96,23 +94,6 @@
         </table>
       </div>
       <p id="ccount" class="count" aria-live="polite"></p>
-    </div>
-  </section>
-
-  <section id="help" class="block">
-    <div class="wrap narrow">
-      <h2>Help desk</h2>
-      <p>Problem with your record, attendance or login? Send a request and note the reference number.</p>
-      <form id="hform" novalidate>
-        <label for="hn">Name</label>
-        <input id="hn" autocomplete="name">
-        <label for="hr">Roll number</label>
-        <input id="hr" autocomplete="off">
-        <label for="hm">Your request</label>
-        <textarea id="hm" rows="4"></textarea>
-        <p id="hmsg" class="fmsg" role="status"></p>
-        <button class="btn" type="submit">Send request</button>
-      </form>
     </div>
   </section>
 

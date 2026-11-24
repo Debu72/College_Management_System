@@ -3,127 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>College Management System</title>
+<title>College Management System — Portal Dashboard</title>
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
-
-<div class="topbar">
-  <div class="wrap"><span>Academic session 2026–27</span><span id="today"></span></div>
-</div>
 
 <header class="site">
   <div class="wrap">
     <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav">
-      <a href="home.html" class="active">Home</a>
-      <a href="notice.html">Notices</a>
-      <a href="routine.html">Routine</a>
-      <a href="attendence.html">Attendance</a>
-      <a href="assignment.html">Assignments</a>
-      <a href="profile.html">Profile</a>
-      <a class="login" href="index.html">Login</a>
+      <!-- Populated dynamically based on role -->
     </nav>
   </div>
 </header>
 
-<main id="home">
+<main>
 
-  <section class="hero">
-    <div class="wrap two">
-      <div>
-        <h1>Notices, timetables, attendance and assignments in one place</h1>
-        <p>Students check their schedule and the latest circulars. Faculty mark attendance and post assignments. The college office keeps records up to date.</p>
-        <form id="heroSearch" role="search">
-          <label for="q" class="sr">Search notices and circulars</label>
-          <input id="q" type="search" placeholder="Search notices and circulars">
-          <button class="btn" type="submit">Search</button>
-        </form>
-      </div>
-      <aside class="latest">
-        <h2>Latest notices</h2>
-        <ul id="latest"></ul>
-        <a href="notice.html">See all notices</a>
-      </aside>
-    </div>
-  </section>
-
-  <!-- Quick Access Portal Modules -->
-  <section class="block">
+  <!-- 1. Notice Board -->
+  <section id="notices" class="block" style="padding-top:20px;">
     <div class="wrap">
-      <h2>Academic Portals & Services</h2>
-      <div class="stat-grid" style="margin-top:20px;">
-        <div class="stat-card">
-          <div class="label">Announcements</div>
-          <div class="value" style="font-size:1.4rem;"><a href="notice.html" style="text-decoration:none;color:var(--navy);">Notice Board</a></div>
-          <div class="sub"><a href="notice.html">View circulars &amp; exams &rarr;</a></div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Schedules</div>
-          <div class="value" style="font-size:1.4rem;"><a href="routine.html" style="text-decoration:none;color:var(--navy);">Class Routine</a></div>
-          <div class="sub"><a href="routine.html">View timetable &amp; labs &rarr;</a></div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Records</div>
-          <div class="value" style="font-size:1.4rem;"><a href="attendence.html" style="text-decoration:none;color:var(--navy);">Attendance</a></div>
-          <div class="sub"><a href="attendence.html">Check eligibility &amp; logs &rarr;</a></div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Academics</div>
-          <div class="value" style="font-size:1.4rem;"><a href="assignment.html" style="text-decoration:none;color:var(--navy);">Assignments</a></div>
-          <div class="sub"><a href="assignment.html">Submit tasks &amp; view marks &rarr;</a></div>
-        </div>
-        <div class="stat-card">
-          <div class="label">Student Info</div>
-          <div class="value" style="font-size:1.4rem;"><a href="profile.html" style="text-decoration:none;color:var(--navy);">My Profile</a></div>
-          <div class="sub"><a href="profile.html">Academic records &amp; details &rarr;</a></div>
-        </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <h1 style="margin:0;font-size:22px;color:var(--text-main);">Notice Board</h1>
+        <div id="adminNoticeAction"></div>
       </div>
-    </div>
-  </section>
 
-  <section class="roles wrap" aria-labelledby="rolesH">
-    <h2 id="rolesH">Who uses it</h2>
-    <div class="three">
-      <div><h3>Student</h3><p>Views notices, timetable, attendance percentages, coursework and personal academic information.</p></div>
-      <div><h3>Faculty</h3><p>Manages lecture attendance, assignments, grades and class notices.</p></div>
-      <div><h3>Administrator</h3><p>Manages student and faculty records and the content on this site.</p></div>
-    </div>
-    <a class="btn" href="index.html">Login to your account</a>
-  </section>
-
-  <section id="courses" class="block alt">
-    <div class="wrap">
-      <h2>Courses Offered</h2>
       <div class="tools">
-        <label>Semester <select id="csem"><option value="0">All</option></select></label>
-        <input id="cq" type="search" placeholder="Search by course, code or faculty" aria-label="Search courses">
+        <div id="cats" class="cats" role="group" aria-label="Filter by category"></div>
+        <input id="nq" type="search" placeholder="Search notices by keyword..." aria-label="Search notices">
       </div>
+      <ul id="nlist" class="nlist"></ul>
+    </div>
+  </section>
+
+  <!-- 2. Timetable / Routine Section (For Students & Faculty) -->
+  <section id="timetable" class="block alt">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <h2 style="font-size:18px;margin:0;">Class Routine & Timetable</h2>
+        <button type="button" class="btn btn-outline" onclick="window.print()">Print Routine</button>
+      </div>
+
+      <div class="tools" style="margin-top:0;">
+        <label style="font-size:14px;font-weight:600;">Semester: 
+          <select id="tsem" style="margin-left:6px;"></select>
+        </label>
+      </div>
+
+      <div class="scroll"><table id="ttable"></table></div>
+    </div>
+  </section>
+
+  <!-- 3. Attendance Section (For Faculty) -->
+  <section id="attendance" class="block">
+    <div class="wrap">
+      <h2 style="font-size:18px;margin-bottom:12px;" id="attHeading">Attendance Management</h2>
+
       <div class="scroll">
         <table>
-          <thead><tr><th>Code</th><th>Course</th><th>Department</th><th>Semester</th><th>Faculty</th></tr></thead>
-          <tbody id="cbody"></tbody>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Course Name</th>
+              <th>Held</th>
+              <th>Attended</th>
+              <th>Percentage</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="attBody"></tbody>
         </table>
       </div>
-      <p id="ccount" class="count" aria-live="polite"></p>
     </div>
   </section>
 
-  <section id="help" class="block">
-    <div class="wrap narrow">
-      <h2>Help desk</h2>
-      <p>Problem with your record, attendance or login? Send a request and note the reference number.</p>
-      <form id="hform" novalidate>
-        <label for="hn">Name</label>
-        <input id="hn" autocomplete="name">
-        <label for="hr">Roll number</label>
-        <input id="hr" autocomplete="off">
-        <label for="hm">Your request</label>
-        <textarea id="hm" rows="4"></textarea>
-        <p id="hmsg" class="fmsg" role="status"></p>
-        <button class="btn" type="submit">Send request</button>
-      </form>
+  <!-- 4. Assignments & Coursework Section (For Students & Faculty) -->
+  <section id="assignments" class="block alt">
+    <div class="wrap">
+      <h2 style="font-size:18px;margin-bottom:12px;" id="asgHeading">Assignments & Coursework</h2>
+
+      <div class="tools" style="justify-content:space-between;margin-bottom:14px;">
+        <div class="cats" role="group" aria-label="Filter assignments">
+          <button type="button" class="asg-filter-btn on" data-filter="all">All</button>
+          <button type="button" class="asg-filter-btn" data-filter="pending">Pending</button>
+          <button type="button" class="asg-filter-btn" data-filter="submitted">Submitted</button>
+          <button type="button" class="asg-filter-btn" data-filter="evaluated">Evaluated</button>
+        </div>
+        <input id="asgSearch" type="search" placeholder="Search assignments..." aria-label="Search assignments">
+      </div>
+
+      <div id="asgList"></div>
+
+      <!-- Action Area (Submit solution for student / Create assignment for faculty) -->
+      <div id="submitBox" style="margin-top:16px;"></div>
+    </div>
+  </section>
+
+  <!-- 5. Administrator Records Directory (Students & Faculty View for Admin) -->
+  <section id="adminRecords" class="block">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <h2 style="font-size:18px;margin:0;">College Institutional Directory</h2>
+        <div class="cats" role="group">
+          <button type="button" class="rec-tab-btn on" id="btnShowStudents">Students</button>
+          <button type="button" class="rec-tab-btn" id="btnShowFaculty">Faculty Members</button>
+        </div>
+      </div>
+
+      <div class="scroll">
+        <table id="recordsTable">
+          <thead id="recordsThead">
+            <!-- Dynamic header -->
+          </thead>
+          <tbody id="recordsTbody">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -131,11 +127,13 @@
 
 <footer>
   <div class="wrap">
-    <span>Sample College, College Management System</span>
-    <span>Office hours: Monday to Friday, 10:00 am to 4:30 pm</span>
+    <span>Sample College &bull; College Management System</span>
+    <span id="footerDate"></span>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../backend/app.js"></script>
 <script src="home.js"></script>
 </body>
 </html>
