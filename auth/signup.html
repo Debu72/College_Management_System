@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>College Portal — Create Account</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="auth.css">
 </head>
 <body>
@@ -31,23 +32,23 @@
 
       <div class="form-group">
         <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" placeholder="e.g. Aarav Sharma" required>
+        <input type="text" id="fullName" name="fullName" placeholder="e.g. Aarav Sharma" autocomplete="name" required>
       </div>
 
       <div class="form-group">
         <label for="email">College Email</label>
-        <input type="email" id="email" name="email" placeholder="name@college.edu" required>
+        <input type="email" id="email" name="email" placeholder="name@college.edu" autocomplete="email" required>
       </div>
 
       <!-- Dynamic role-specific field -->
       <div class="form-group">
         <label for="roleCode" id="codeLabel">Student Roll No</label>
-        <input type="text" id="roleCode" name="roleCode" placeholder="e.g. 2024CS101" required>
+        <input type="text" id="roleCode" name="roleCode" placeholder="e.g. 2024CS101" autocomplete="off" required>
       </div>
 
       <div class="form-group">
         <label for="password">Create Password</label>
-        <input type="password" id="password" name="password" placeholder="Minimum 8 characters" required>
+        <input type="password" id="password" name="password" placeholder="Minimum 8 characters" autocomplete="new-password" required>
       </div>
 
       <button type="submit" class="btn-submit" id="submitBtn">Sign up as Student</button>

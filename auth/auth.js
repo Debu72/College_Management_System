@@ -55,7 +55,8 @@ if (tabs.length > 0) {
     }
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    const isSignUpPage = window.location.pathname.includes("signup.html");
+    // vercel.json cleanUrls serves this page at /auth/signup (no .html)
+    const isSignUpPage = /\/signup(\.html)?\/?$/.test(window.location.pathname);
 
     const form = document.querySelector("form");
     if (form) {
