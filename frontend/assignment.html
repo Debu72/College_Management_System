@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assignments & Coursework - College Management System</title>
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap"><span>Academic session 2026–27</span><span id="today"></span></div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
+    <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav">
+      <a href="home.html">Home</a>
+      <a href="notice.html">Notices</a>
+      <a href="routine.html">Routine</a>
+      <a href="attendence.html">Attendance</a>
+      <a href="assignment.html" class="active">Assignments</a>
+      <a href="profile.html">Profile</a>
+      <a class="login" href="index.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-banner">
+    <div class="wrap">
+      <h1>Assignments & Coursework</h1>
+      <p>View active class assignments, problem sets, laboratory task sheets, submission deadlines, and evaluation marks.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <!-- Assignment Overview Stat Cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="label">Pending Action</div>
+          <div class="value" id="statPending" style="color:#b06000;">2</div>
+          <div class="sub">Requires submission</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Submitted</div>
+          <div class="value" id="statSubmitted">1</div>
+          <div class="sub">Awaiting evaluation</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Evaluated / Graded</div>
+          <div class="value" id="statEvaluated" style="color:var(--teal);">1</div>
+          <div class="sub">Marks published</div>
+        </div>
+      </div>
+
+      <div class="tools" style="justify-content:space-between; margin-bottom: 20px;">
+        <div class="cats" role="group" aria-label="Filter assignments">
+          <button type="button" class="asg-filter-btn on" data-filter="all">All</button>
+          <button type="button" class="asg-filter-btn" data-filter="pending">Pending</button>
+          <button type="button" class="asg-filter-btn" data-filter="submitted">Submitted</button>
+          <button type="button" class="asg-filter-btn" data-filter="evaluated">Evaluated</button>
+        </div>
+        <input id="asgSearch" type="search" placeholder="Search assignments..." aria-label="Search assignments">
+      </div>
+
+      <div id="asgList"></div>
+
+    </div>
+  </section>
+
+  <!-- Assignment Submission Box -->
+  <section id="submitBox" class="block alt">
+    <div class="wrap narrow">
+      <h2>Submit Assignment Solution</h2>
+      <p>Upload your report, code file or PDF document before the deadline.</p>
+      <form id="asgUploadForm" novalidate>
+        <label for="subAsgSelect" style="display:block;margin:12px 0 4px;font-weight:600;">Select Assignment</label>
+        <select id="subAsgSelect" style="width:100%;" required>
+          <option value="ASG-01">CSC202: Data Cleaning & Exploratory Data Analysis in Python (Due: 28 Nov)</option>
+          <option value="ASG-02">MAT201: Double Integrals and Surface Area Calculations (Due: 02 Dec)</option>
+        </select>
+
+        <label for="asgFile" style="display:block;margin:12px 0 4px;font-weight:600;">Attach File (PDF, ZIP, or Code)</label>
+        <input type="file" id="asgFile" style="width:100%;" required>
+
+        <label for="subRemarks" style="display:block;margin:12px 0 4px;font-weight:600;">Comments or GitHub / Notebook Link (optional)</label>
+        <textarea id="subRemarks" rows="3" placeholder="Provide any additional notes, repository URLs, or comments for the instructor..."></textarea>
+
+        <p id="asgUploadMsg" class="fmsg" role="status"></p>
+        <button class="btn" type="submit">Submit Assignment</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sample College, College Management System</span>
+    <span>Office hours: Monday to Friday, 10:00 am to 4:30 pm</span>
+  </div>
+</footer>
+
+<script src="home.js"></script>
+</body>
+</html>

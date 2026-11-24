@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class Routine & Timetable - College Management System</title>
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap"><span>Academic session 2026–27</span><span id="today"></span></div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
+    <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav">
+      <a href="home.html">Home</a>
+      <a href="notice.html">Notices</a>
+      <a href="routine.html" class="active">Routine</a>
+      <a href="attendence.html">Attendance</a>
+      <a href="assignment.html">Assignments</a>
+      <a href="profile.html">Profile</a>
+      <a class="login" href="index.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-banner">
+    <div class="wrap">
+      <h1>Class Routine & Timetable</h1>
+      <p>Select your semester and section to view the weekly schedule, lecture hours, and room allocations.</p>
+    </div>
+  </section>
+
+  <section id="timetable" class="block">
+    <div class="wrap">
+      <div class="tools">
+        <label>Semester <select id="tsem"></select></label>
+        <label>Section <select id="tsec"><option value="A">Section A</option><option value="B">Section B</option></select></label>
+        <button type="button" class="btn" onclick="window.print()" style="margin-left:auto;">Print Routine</button>
+      </div>
+      <div class="scroll"><table id="ttable"></table></div>
+      <p class="count" style="margin-top:14px;">Today’s row is highlighted on weekdays. Working days: Monday through Friday. Lab sessions are scheduled in the afternoon slots.</p>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="wrap">
+      <h2>Lecture Periods & Lab Timings</h2>
+      <div class="three" style="margin-top:16px;">
+        <div>
+          <h3>Morning Slots</h3>
+          <p>Period 1: 10:00 am – 10:50 am<br>Period 2: 10:50 am – 11:40 am<br>Period 3: 11:40 am – 12:30 pm</p>
+        </div>
+        <div>
+          <h3>Recess & Lunch</h3>
+          <p>Break duration: 12:30 pm – 01:15 pm<br>Cafeteria & Common Rooms remain open.</p>
+        </div>
+        <div>
+          <h3>Afternoon Slots</h3>
+          <p>Period 4: 01:15 pm – 02:00 pm<br>Period 5: 02:00 pm – 03:30 pm<br>(Practical & Laboratory Sessions)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sample College, College Management System</span>
+    <span>Office hours: Monday to Friday, 10:00 am to 4:30 pm</span>
+  </div>
+</footer>
+
+<script src="home.js"></script>
+</body>
+</html>
