@@ -12,9 +12,7 @@
   <div class="wrap">
     <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
-    <nav id="nav">
-      <!-- Populated dynamically by home.js based on role -->
-    </nav>
+    <nav id="nav"></nav>
   </div>
 </header>
 
@@ -22,14 +20,14 @@
 
   <section class="page-banner">
     <div class="wrap">
-      <h1 id="pBannerTitle" style="font-size:22px;margin:0;">User Profile</h1>
+      <h1 id="pBannerTitle">User Profile</h1>
     </div>
   </section>
 
   <section class="block">
     <div class="wrap">
       <div class="profile-layout">
-        
+
         <!-- Left: Summary Avatar & Role Card -->
         <aside class="profile-card">
           <div class="profile-avatar" id="pAvatar">U</div>
@@ -37,12 +35,8 @@
           <div class="roll" id="pCode">ID: Loading...</div>
           <p style="margin-bottom:14px;"><span class="badge badge-ok" id="pBadge">Role Badge</span></p>
 
-          <!-- Dynamic Role Summary Block -->
-          <div id="pSummaryBlock" style="text-align:left;font-size:13px;border-top:1px solid var(--border-color);padding-top:14px;margin-top:10px;">
-            <!-- Rendered by JS per role -->
-          </div>
+          <div id="pSummaryBlock" style="text-align:left;font-size:13px;border-top:1px solid var(--border-color);padding-top:14px;margin-top:10px;"></div>
 
-          <!-- Action Buttons -->
           <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px;">
             <button type="button" id="logoutBtn" class="btn btn-danger" style="width:100%;font-weight:600;">Log Out</button>
           </div>
@@ -50,43 +44,37 @@
 
         <!-- Right: Role-Tailored Information Panels -->
         <div id="pContentArea">
-          
-          <!-- Institutional Profile Details Card (100% mapped to public.profiles) -->
           <div class="card-box" id="pContactCard">
             <h3 style="margin-top:0;">Institutional Profile Details</h3>
             <div class="info-grid">
               <div class="info-field">
                 <label>Full Name</label>
-                <span id="pDetailName" style="font-weight:600;">—</span>
+                <span id="pDetailName">—</span>
               </div>
               <div class="info-field">
                 <label>Registered Email</label>
-                <span id="pDetailEmail" style="font-weight:600;">—</span>
+                <span id="pDetailEmail">—</span>
               </div>
               <div class="info-field">
                 <label>Institutional Role</label>
-                <span id="pDetailRole" style="font-weight:600;text-transform:capitalize;">—</span>
+                <span id="pDetailRole" style="text-transform:capitalize;">—</span>
               </div>
               <div class="info-field">
                 <label id="pDetailCodeLabel">Roll / Faculty ID</label>
-                <span id="pDetailCode" style="font-weight:600;">—</span>
+                <span id="pDetailCode">—</span>
               </div>
               <div class="info-field">
                 <label>Department</label>
-                <span id="pDetailDept" style="font-weight:600;">—</span>
+                <span id="pDetailDept">—</span>
               </div>
               <div class="info-field" id="pDetailSemField">
                 <label>Current Semester</label>
-                <span id="pDetailSem" style="font-weight:600;">—</span>
+                <span id="pDetailSem">—</span>
               </div>
             </div>
           </div>
 
-          <!-- Dynamic Role-Specific Detail Card -->
-          <div id="pRoleMainCard">
-            <!-- Injected by home.js -->
-          </div>
-
+          <div id="pRoleMainCard"></div>
         </div>
 
       </div>
