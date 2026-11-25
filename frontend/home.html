@@ -1,16 +1,19 @@
+<!-- Author: Bikram Panja                         Last Edited: 25-11-2026
+     Unified role-based portal dashboard for Notices, Class Routine, Attendance, Assignments, and Admin Directory. -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>College Management System — Portal Dashboard</title>
+<title>ABC College</title>
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="home.html"><b>Sample College</b><small>College Management System</small></a>
+    <a class="brand" href="home.html"><b>ABC College</b></a>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav"></nav>
   </div>
@@ -34,11 +37,12 @@
     </div>
   </section>
 
-  <!-- 2. Timetable / Routine Section (For Students) -->
+  <!-- 2. Timetable / Routine Section (Student read-only / Faculty editable) -->
   <section id="timetable" class="block alt">
     <div class="wrap">
       <div class="panel-header">
         <h2 style="font-size:18px;margin:0;">Class Routine &amp; Timetable</h2>
+        <span id="ttStatus" style="font-size:13px;color:var(--success);font-weight:600;"></span>
       </div>
 
       <div class="tools" style="margin-top:0;">
@@ -51,7 +55,7 @@
     </div>
   </section>
 
-  <!-- 3. Attendance Section (For Faculty) -->
+  <!-- 3. Attendance Section (Faculty management / Student own summary) -->
   <section id="attendance" class="block">
     <div class="wrap">
       <h2 style="font-size:18px;margin-bottom:12px;" id="attHeading">Attendance Management</h2>
@@ -65,14 +69,14 @@
               <th>Held</th>
               <th>Attended</th>
               <th>Percentage</th>
-              <th>Action</th>
+              <th id="attActionCol">Action</th>
             </tr>
           </thead>
           <tbody id="attBody"></tbody>
         </table>
       </div>
 
-      <!-- Inline Student Roster & Attendance Marking Panel -->
+      <!-- Inline Student Roster & Attendance Marking Panel (Faculty) / Recent Log (Student) -->
       <div id="attCoursePanel" style="margin-top:16px;"></div>
     </div>
   </section>

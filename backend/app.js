@@ -1,8 +1,6 @@
-/**
- * CampusConnect — Shared Core State, Theme Sync & Navigation Engine (app.js)
- */
-
-// Apply saved theme immediately across all portal pages
+// Author: Debajyoti Ghosh                     Last Edited: 25-11-2026
+ 
+// Dark mode
 if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
@@ -101,11 +99,13 @@ const AppState = (() => {
       student: [
         { name: 'Notices', href: prefix + '#notices' },
         { name: 'Routine', href: prefix + '#timetable' },
+        { name: 'Attendance', href: prefix + '#attendance' },
         { name: 'Assignments', href: prefix + '#assignments' },
         { name: 'Profile', href: 'profile.html' }
       ],
       faculty: [
         { name: 'Notices', href: prefix + '#notices' },
+        { name: 'Routine', href: prefix + '#timetable' },
         { name: 'Attendance', href: prefix + '#attendance' },
         { name: 'Assignments', href: prefix + '#assignments' },
         { name: 'Profile', href: 'profile.html' }

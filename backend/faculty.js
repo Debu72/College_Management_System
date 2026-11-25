@@ -1,7 +1,4 @@
-/**
- * CampusConnect — Faculty Module (faculty.js)
- * Attendance Roster, Inline Submissions Review & Grading, Assignment Creation.
- */
+// Author: Debajyoti Ghosh                     Last Edited: 25-11-2026
 
 window.FacultyModule = (() => {
   const $ = sel => document.querySelector(sel);

@@ -1,9 +1,12 @@
+<!-- Author: Bikram Panja and Debajyoti Ghosh               Last Edited: 24-11-2026
+     For user details -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>User Profile — College Management System</title>
+<title>ABC College - User Profile</title>
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -45,8 +48,12 @@
         <!-- Right: Role-Tailored Information Panels -->
         <div id="pContentArea">
           <div class="card-box" id="pContactCard">
-            <h3 style="margin-top:0;">Institutional Profile Details</h3>
-            <div class="info-grid">
+            <div class="panel-header">
+              <h3 style="margin:0;">Institutional Profile Details</h3>
+              <button type="button" id="editProfileBtn" class="btn btn-outline btn-sm">Edit Profile</button>
+            </div>
+
+            <div class="info-grid" id="profileViewGrid">
               <div class="info-field">
                 <label>Full Name</label>
                 <span id="pDetailName">—</span>
@@ -72,6 +79,47 @@
                 <span id="pDetailSem">—</span>
               </div>
             </div>
+
+            <form id="profileEditForm" style="display:none;">
+              <div class="info-grid">
+                <div class="info-field">
+                  <label for="editName">Full Name</label>
+                  <input type="text" id="editName" style="width:100%;" required>
+                </div>
+                <div class="info-field">
+                  <label for="editEmail">Registered Email (Read-only)</label>
+                  <input type="email" id="editEmail" style="width:100%;opacity:0.7;cursor:not-allowed;" readonly disabled>
+                </div>
+                <div class="info-field">
+                  <label for="editRole">Institutional Role (Read-only)</label>
+                  <input type="text" id="editRole" style="width:100%;opacity:0.7;cursor:not-allowed;text-transform:capitalize;" readonly disabled>
+                </div>
+                <div class="info-field">
+                  <label for="editCode" id="editCodeLabel">Roll / Faculty ID</label>
+                  <input type="text" id="editCode" style="width:100%;" required>
+                </div>
+                <div class="info-field">
+                  <label for="editDept">Department</label>
+                  <input type="text" id="editDept" style="width:100%;" required>
+                </div>
+                <div class="info-field" id="editSemField">
+                  <label for="editSem">Current Semester</label>
+                  <select id="editSem" style="width:100%;">
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                  </select>
+                </div>
+              </div>
+              <p id="profileMsg" class="fmsg" role="status"></p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="submit" class="btn btn-sm" id="saveProfileBtn">Save Changes</button>
+                <button type="button" id="cancelEditBtn" class="btn btn-outline btn-sm">Cancel</button>
+              </div>
+            </form>
           </div>
 
           <div id="pRoleMainCard"></div>

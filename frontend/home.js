@@ -1,7 +1,6 @@
-/**
- * CampusConnect — Dashboard UI Controller (home.js)
- * Coordinates Notices, Student Routine, Assignments, Admin Directory, and FacultyModule.
- */
+/* Author: Bikram Panja and Debajyoti Ghosh               Last Edited: 25-11-2026 
+ * For Notices, Routine, Student Attendance Summary, Assignments, and Admin Directory.
+*/
 
 document.addEventListener('DOMContentLoaded', async () => {
   const $ = sel => document.querySelector(sel);
@@ -15,13 +14,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const NOW = Date.now(), DAY = 864e5;
   const dateOf = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
-  // ---------- 1. Role-Based Section Visibility ----------
+  // Role-Based Section Visibility
   const hide = sel => { const el = $(sel); if (el) el.style.display = 'none'; };
   if (session.role === 'student') {
-    hide('#attendance');
     hide('#adminRecords');
   } else if (session.role === 'faculty') {
-    hide('#timetable');
     hide('#adminRecords');
     if ($('#adminNoticeAction')) $('#adminNoticeAction').innerHTML = '<button type="button" class="btn" onclick="addNoticePrompt()">+ Post Class Notice</button>';
   } else if (session.role === 'admin') {
@@ -32,9 +29,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   let noticesList = [], dbCourses = [], dbProfiles = [], dbAssignments = [], dbSubmissions = [];
+  let ttOverrides = [];
   let currentCategory = 'All', asgFilter = 'all';
 
-  // ---------- 2. Notice Board ----------
+  // Notice Board
   const renderNotices = () => {
     const container = $('#nlist');
     if (!container) return;
@@ -86,10 +84,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderNotices();
   };
 
-  // ---------- 3. Student Timetable ----------
+  //Routine / Timetable
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const times = ['10:00 am', '10:50 am', '11:40 am', '12:30 pm', '02:00 pm', '03:30 pm'];
   const tsem = $('#tsem');
+
+  const getLocalTt = () => {
+    try { return JSON.parse(localStorage.getItem('cms_timetable_overrides') || '[]'); } catch { return []; }
+  };
+
+  const saveRoutineCell = async (semester, day, periodIndex, subject) => {
+    const statusEl = $('#ttStatus');
+    const match = r => r.semester === semester && r.day === day && r.period_index === periodIndex;
+    const idx = ttOverrides.findIndex(match);
+    if (idx >= 0) ttOverrides[idx].subject = subject;
+    else ttOverrides.push({ semester, day, period_index: periodIndex, subject });
+
+    localStorage.setItem('cms_timetable_overrides', JSON.stringify(ttOverrides));
+
+    if (App?.supabase) {
+      const { error } = await App.supabase.from('timetable').upsert(
+        [{ semester, day, period_index: periodIndex, subject, updated_by: session.id || null }],
+        { onConflict: 'semester,day,period_index' }
+      );
+      if (statusEl) {
+        statusEl.textContent = error ? 'Saved locally' : 'Saved';
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 2000);
+      }
+    }
+  };
 
   const renderTimetable = () => {
     const table = $('#ttable');
@@ -100,13 +123,38 @@ document.addEventListener('DOMContentLoaded', async () => {
       table.innerHTML = `<tbody><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-muted);">No registered courses found for Semester ${sem}.</td></tr></tbody>`;
       return;
     }
+
+    const isFaculty = session.role === 'faculty';
     const today = new Date().getDay() - 1;
     let html = '<thead><tr><th>Day</th>' + times.map(t => `<th>${t}</th>`).join('') + '</tr></thead><tbody>';
+
     days.forEach((d, i) => {
-      html += `<tr${i === today ? ' class="today"' : ''}><th scope="row">${d}</th>` +
-        times.map((_, p) => `<td>${esc(subs[(i + p) % subs.length])}</td>`).join('') + '</tr>';
+      html += `<tr${i === today ? ' class="today"' : ''}><th scope="row">${d}</th>`;
+      times.forEach((_, p) => {
+        const custom = ttOverrides.find(r => r.semester === sem && r.day === d && r.period_index === p);
+        const subject = custom ? custom.subject : subs[(i + p) % subs.length];
+        html += isFaculty
+          ? `<td><input type="text" list="ttCourseOptions" class="tt-edit-input" value="${esc(subject)}" data-sem="${sem}" data-day="${d}" data-period="${p}" aria-label="${d} ${times[p]}"></td>`
+          : `<td>${esc(subject)}</td>`;
+      });
+      html += '</tr>';
     });
-    table.innerHTML = html + '</tbody>';
+
+    if (isFaculty) {
+      const suggestions = [...new Set([...subs, 'Practical Lab', 'Tutorial', 'Library', 'Free Period'])];
+      html += `</tbody><datalist id="ttCourseOptions">${suggestions.map(s => `<option value="${esc(s)}">`).join('')}</datalist>`;
+    } else {
+      html += '</tbody>';
+    }
+    table.innerHTML = html;
+
+    if (isFaculty) {
+      table.querySelectorAll('.tt-edit-input').forEach(inp => {
+        inp.addEventListener('change', () => {
+          saveRoutineCell(+inp.dataset.sem, inp.dataset.day, +inp.dataset.period, inp.value.trim() || 'Free Period');
+        });
+      });
+    }
   };
 
   if (tsem) {
@@ -115,7 +163,74 @@ document.addEventListener('DOMContentLoaded', async () => {
     tsem.addEventListener('change', renderTimetable);
   }
 
-  // ---------- 4. Assignments (Shared List + Student Submit) ----------
+  // Student Own Attendance Summary
+  const renderStudentAttendance = myAttRows => {
+    const attHeading = $('#attHeading');
+    const attBody = $('#attBody');
+    const actionCol = $('#attActionCol');
+    const panel = $('#attCoursePanel');
+
+    if (attHeading) attHeading.textContent = 'My Attendance Summary';
+    if (actionCol) actionCol.style.display = 'none';
+    if (!attBody) return;
+
+    const myCourseIds = [...new Set([
+      ...dbCourses.filter(c => c.semester === (parseInt(session.semester, 10) || 4)).map(c => c.id),
+      ...myAttRows.map(a => a.course_id)
+    ])];
+
+    const summaryCourses = dbCourses.filter(c => myCourseIds.includes(c.id));
+
+    attBody.innerHTML = summaryCourses.length
+      ? summaryCourses.map(c => {
+          const recs = myAttRows.filter(a => String(a.course_id) === String(c.id));
+          const held = recs.length;
+          const attended = recs.filter(a => a.status === 'Present' || a.status === 'Late').length;
+          const pct = held > 0 ? ((attended / held) * 100).toFixed(1) + '%' : '—';
+          return `
+            <tr>
+              <td><b>${esc(c.code)}</b></td>
+              <td>${esc(c.name)}</td>
+              <td>${held}</td>
+              <td>${attended}</td>
+              <td><b style="color:var(--primary);">${pct}</b></td>
+            </tr>
+          `;
+        }).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">No attendance records found.</td></tr>';
+
+    if (panel) {
+      const totalHeld = myAttRows.length;
+      const totalAtt = myAttRows.filter(a => a.status === 'Present' || a.status === 'Late').length;
+      const overallPct = totalHeld > 0 ? ((totalAtt / totalHeld) * 100).toFixed(1) + '%' : '—';
+
+      const logRows = myAttRows.slice(0, 10).map(r => {
+        const course = dbCourses.find(c => String(c.id) === String(r.course_id));
+        const badgeCls = r.status === 'Present' ? 'badge-ok' : (r.status === 'Late' ? 'badge-warn' : 'badge-info');
+        return `
+          <tr>
+            <td>${dateOf(r.date)}</td>
+            <td><b>${esc(course ? course.code : 'Course #' + r.course_id)}</b> — ${esc(course ? course.name : '')}</td>
+            <td><span class="badge ${badgeCls}">${esc(r.status)}</span></td>
+          </tr>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="card-box">
+          <div class="panel-header">
+            <h3 style="margin:0;">Recent Attendance Log</h3>
+            <span style="font-size:13px;font-weight:600;color:var(--primary);">Overall: ${totalAtt} / ${totalHeld} (${overallPct})</span>
+          </div>
+          ${logRows
+            ? `<div class="scroll"><table><thead><tr><th>Date</th><th>Course</th><th>Status</th></tr></thead><tbody>${logRows}</tbody></table></div>`
+            : '<p style="color:var(--text-muted);font-size:14px;">No individual lecture attendance marked yet.</p>'}
+        </div>
+      `;
+    }
+  };
+
+  // Assignments
   const renderAssignments = () => {
     const listEl = $('#asgList');
     if (!listEl) return;
@@ -222,7 +337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   };
 
-  // ---------- 5. Admin Directory (Students, Faculty & Courses) ----------
+  // Admin Directory (Students, Faculty & Courses)
   const renderDirectory = viewType => {
     const thead = $('#recordsThead'), tbody = $('#recordsTbody');
     if (!thead || !tbody) return;
@@ -258,15 +373,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderDirectory(t.type);
   }));
 
-  // ---------- 6. Parallel Data Bootstrap ----------
   if (App) {
-    const [noticesRes, coursesRes, profilesRes, attRes, asgRes, subRes] = await Promise.all([
+    const fetchStudentAtt = () => (session.id && App.supabase)
+      ? App.supabase.from('attendance').select('*').eq('student_id', session.id).order('date', { ascending: false })
+      : Promise.resolve({ data: [] });
+
+    const [noticesRes, coursesRes, profilesRes, attRes, asgRes, subRes, ttRes] = await Promise.all([
       App.fetchTable('notices', '*', 'created_at'),
       App.fetchTable('courses', '*'),
       (session.role === 'admin' || session.role === 'faculty') ? App.fetchTable('profiles', '*') : Promise.resolve({ data: [] }),
-      session.role === 'faculty' ? App.fetchTable('attendance', '*') : Promise.resolve({ data: [] }),
+      session.role === 'faculty' ? App.fetchTable('attendance', '*') : (session.role === 'student' ? fetchStudentAtt() : Promise.resolve({ data: [] })),
       session.role !== 'admin' ? App.fetchTable('assignments', '*', 'id') : Promise.resolve({ data: [] }),
-      session.role !== 'admin' ? App.fetchTable('submissions', '*') : Promise.resolve({ data: [] })
+      session.role !== 'admin' ? App.fetchTable('submissions', '*') : Promise.resolve({ data: [] }),
+      session.role !== 'admin' ? App.fetchTable('timetable', '*') : Promise.resolve({ data: [] })
     ]);
 
     noticesList = noticesRes.data || [];
@@ -274,13 +393,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     dbProfiles = profilesRes.data || [];
     dbAssignments = asgRes.data || [];
     dbSubmissions = subRes.data || [];
+    ttOverrides = (ttRes && ttRes.data && !ttRes.error) ? ttRes.data : getLocalTt();
 
     renderNotices();
     if (session.role === 'student') {
       renderTimetable();
+      renderStudentAttendance(attRes.data || []);
       renderAssignments();
       renderStudentSubmitBox();
     } else if (session.role === 'faculty') {
+      renderTimetable();
       renderAssignments();
       window.FacultyModule?.init({
         session,

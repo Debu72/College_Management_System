@@ -1,9 +1,12 @@
+ <!-- Author: Debajyoti Ghosh                     Last Edited: 25-11-2026 -->
+
+<!-- Portal sign-in page supporting Email or Roll/Faculty ID authentication and Supabase password recovery. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Portal — Sign In</title>
+  <title>ABC College — Sign In</title>
   <link rel="stylesheet" href="auth.css">
 </head>
 <body>
@@ -16,9 +19,9 @@
   </button>
 
   <div class="card">
-    <div class="brand">CampusConnect</div>
-    <h1>Sign in</h1>
-    <p class="subtitle">Enter your college email or roll number to access the portal</p>
+    <div class="brand">ABC College</div>
+    <h1 id="authHeading">Sign in</h1>
+    <p class="subtitle" id="authSubtitle">Enter your college email or roll number to access the portal</p>
 
     <form id="loginForm">
       <div class="form-group">
@@ -31,10 +34,37 @@
         <input type="password" id="password" name="password" placeholder="Enter password" required>
       </div>
 
+      <div style="text-align:right;margin:-8px 0 14px;">
+        <a href="#" id="forgotPassLink" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:600;">Forgot password?</a>
+      </div>
+
       <button type="submit" class="btn-submit" id="submitBtn">Sign in</button>
     </form>
 
-    <div class="footer-link">
+    <!-- Forgot Password Form -->
+    <form id="forgotForm" style="display:none;">
+      <div class="form-group">
+        <label for="resetEmail">Registered Email or Roll / Faculty ID</label>
+        <input type="text" id="resetEmail" placeholder="name@college.edu or Roll No" required>
+      </div>
+      <p id="resetMsg" style="font-size:13px;margin-bottom:10px;"></p>
+      <button type="submit" class="btn-submit" id="resetBtn">Send Reset Link</button>
+      <div class="footer-link" style="margin-top:14px;">
+        <a href="#" id="backToLogin">Back to Sign in</a>
+      </div>
+    </form>
+
+    <!-- Password Recovery (Set New Password) Form -->
+    <form id="recoveryForm" style="display:none;">
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" placeholder="Minimum 6 characters" minlength="6" required>
+      </div>
+      <p id="recoveryMsg" style="font-size:13px;margin-bottom:10px;"></p>
+      <button type="submit" class="btn-submit" id="recoveryBtn">Update Password</button>
+    </form>
+
+    <div class="footer-link" id="signupFooterLink">
       New to the portal? <a href="signup.html">Activate account</a>
     </div>
   </div>

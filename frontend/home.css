@@ -1,3 +1,5 @@
+/* Author: Bikram Panja and Debajyoti Ghosh               Last Edited: 25-11-2026 */
+
 :root {
   --primary: #0a66c2;
   --primary-hover: #004182;
@@ -472,6 +474,27 @@ tr:hover td {
 
 tr.today th, tr.today td {
   background: var(--bg-today);
+}
+
+.tt-edit-input {
+  width: 100%;
+  min-width: 115px;
+  padding: 5px 7px;
+  font-size: 13px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text-main);
+}
+
+.tt-edit-input:hover {
+  border-color: var(--border-color);
+  background: var(--bg-card);
+}
+
+.tt-edit-input:focus {
+  background: var(--bg-card);
+  border-color: var(--primary);
 }
 
 /* Badges */
