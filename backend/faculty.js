@@ -21,7 +21,7 @@ window.FacultyModule = (() => {
 
   const esc = s => (window.AppState ? window.AppState.esc(s) : String(s ?? ''));
 
-  // ---------- 1. Attendance Summary & Interactive Roster ----------
+  // Attendance Summary & Interactive Roster
   const renderAttendanceTable = () => {
     const tbody = $('#attBody');
     if (!tbody) return;
@@ -146,7 +146,7 @@ window.FacultyModule = (() => {
     renderAttendancePanel();
   };
 
-  // ---------- 2. Submissions Review & Grading ----------
+  // Submissions Review & Grading
   const renderReviewPanel = () => {
     const panel = $('#subReviewPanel');
     if (!panel) return;
@@ -223,7 +223,7 @@ window.FacultyModule = (() => {
     renderReviewPanel();
   };
 
-  // ---------- 3. Create Assignment Form ----------
+  // Create Assignment Form
   const renderCreateForm = () => {
     const box = $('#submitBox');
     if (!box) return;
