@@ -60,7 +60,8 @@ if (tabs.length > 0) {
     }
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    const isSignUpPage = window.location.pathname.includes("signup.html");
+    const signupForm = document.getElementById("signupForm");
+    const isSignUpPage = Boolean(signupForm) || window.location.pathname.includes("signup");
 
     const resolveEmail = async input => {
         if (!input || input.includes('@')) return input;
@@ -186,7 +187,7 @@ if (tabs.length > 0) {
     }
 
     // Login / Signup Form submission
-    const authForm = isSignUpPage ? document.getElementById("signupForm") : loginForm;
+    const authForm = isSignUpPage ? signupForm : loginForm;
     if (authForm) {
         authForm.addEventListener("submit", async e => {
             e.preventDefault();
@@ -221,14 +222,23 @@ if (tabs.length > 0) {
 
                     if (error) {
                         alert("Sign Up Error: " + error.message);
+                    } else if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+                        alert("An account with this email already exists. Please sign in instead.");
                     } else {
                         if (data.user) {
-                            await supabaseClient.from("profiles").upsert({
+                            const { error: profileError } = await supabaseClient.from("profiles").upsert({
                                 id: data.user.id, role, full_name: fullName, email, roll_or_faculty_id: roleCode
                             });
+                            if (profileError) {
+                                console.warn("Profile creation notice:", profileError.message);
+                            }
                         }
-                        alert(`Success! Account created as ${role.toUpperCase()}. You can now sign in.`);
-                        window.location.href = "login.html";
+                        if (data.user && !data.session) {
+                            alert(`Account created as ${role.toUpperCase()}! Please check ${email} to confirm your email before signing in.`);
+                        } else {
+                            alert(`Success! Account created as ${role.toUpperCase()}. You can now sign in.`);
+                        }
+                        window.location.href = window.location.pathname.endsWith('/signup/') ? "../login.html" : "login.html";
                     }
                 } else {
                     const loginEmail = await resolveEmail(email);
